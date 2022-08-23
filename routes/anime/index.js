@@ -1,13 +1,14 @@
 'use strict'
 
-import { getOneAnime } from '/controllers/anime.js';
+const { getOneAnime, getMultipleAnime, createAnime, updateAnime, deleteAnime } = require('../../controllers/anime.js');
 
-const Anime = {
+const AnimeSchema = {
+    $id: 'animeSchema',
     type: 'object',
     properties: {
         sources: {
             type: 'array',
-            items: 'string'
+            items: { type: 'string' }
         },
         title: { type: 'string' },
         type: {
@@ -28,15 +29,15 @@ const Anime = {
         thumbnail: { type: 'string' },
         synonyms: {
             type: 'array',
-            items: 'string'
+            items: { type: 'string' }
         },
         relations: {
             type: 'array',
-            items: 'string'
+            items: { type: 'string' }
         },
         tags: {
             type: 'array',
-            items: 'string'
+            items: { type: 'string' }
         }
     }
 }
@@ -44,18 +45,53 @@ const Anime = {
 const getOneAnimeOptions = {
     schema: {
         response: {
-            200: Anime
-        }
-    },
-    handler: getOneAnime(req, reply)
+            '2xx': { $ref: 'animeSchema' }
+        },
+        params: {
+            type: 'object',
+            properties: {
+                animeId: { type: 'integer' }
+            },
+        },
+    }
 }
 
 const getMultipleAnimeOptions = {
     schema: {
         response: {
-            200: {
+            '2xx': {
                 type: 'array',
-                items: Anime
+                items: { $ref: 'animeSchema' }
+            }
+        }
+    }
+}
+
+const createAnimeOptions = {
+    schema: {
+        response: {
+            200: {
+                type: 'string'
+            }
+        }
+    }
+}
+
+const updateAnimeOptions = {
+    schema: {
+        response: {
+            200: {
+                type: 'string'
+            }
+        }
+    }
+}
+
+const deleteAnimeOptions = {
+    schema: {
+        response: {
+            200: {
+                type: 'string'
             }
         }
     }
@@ -73,16 +109,12 @@ const getMultipleAnimeOptions = {
  * @returns {Promise<void>}
  */
 module.exports = async function (fastify, opts) {
-    fastify.get('/', async function (request, reply) {
-        return fastify.Anime.count();
-    })
 
-    fastify.delete('/', async function (request, reply) {
+    fastify.addSchema(AnimeSchema);
 
-        fastify.Anime.destroy({
-            truncate: true
-        });
-
-        return "Success"
-    })
+    fastify.get('/:animeId', getOneAnimeOptions, getOneAnime);
+    fastify.get('/', { getMultipleAnimeOptions }, getMultipleAnime);
+    fastify.post('/:animeId', { createAnimeOptions }, createAnime);
+    fastify.put('/:animeId', { updateAnimeOptions }, updateAnime);
+    fastify.delete('/:animeId', { deleteAnimeOptions }, deleteAnime);
 }

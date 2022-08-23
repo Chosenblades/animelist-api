@@ -1,10 +1,17 @@
 
 
-function getOneAnime(req, reply) {
-    return "NYI"
+async function getOneAnime(req, reply) {
+    const { animeId } = req.params;
+    const anime = await this.Anime.findByPk(animeId);
+
+    if(anime === null) {
+        reply.notFound();
+    } else {
+        return anime;
+    }
 }
 
-function getAllAnime(req, reply) {
+function getMultipleAnime(req, reply) {
     return "NYI"
 }
 
@@ -22,7 +29,7 @@ function deleteAnime(req, reply) {
 
 module.exports = {
     getOneAnime,
-    getAllAnime,
+    getMultipleAnime,
     createAnime,
     updateAnime,
     deleteAnime
