@@ -1,6 +1,6 @@
 'use strict'
 
-const { getOneAnime, getMultipleAnime, createAnime, updateAnime, deleteAnime } = require('../../controllers/anime.js');
+const { getOneAnime, getMultipleAnime, createAnime, updateAnime, deleteAnime, searchAnime } = require('../../controllers/anime.js');
 
 const AnimeSchema = {
     $id: 'animeSchema',
@@ -112,9 +112,10 @@ module.exports = async function (fastify, opts) {
 
     fastify.addSchema(AnimeSchema);
 
-    fastify.get('/:animeId', getOneAnimeOptions, getOneAnime);
+    fastify.get('/:animeTitle', getOneAnimeOptions, getOneAnime);
     fastify.get('/', { getMultipleAnimeOptions }, getMultipleAnime);
     fastify.post('/:animeId', { createAnimeOptions }, createAnime);
     fastify.put('/:animeId', { updateAnimeOptions }, updateAnime);
     fastify.delete('/:animeId', { deleteAnimeOptions }, deleteAnime);
+    fastify.get('/search/:searchText', searchAnime)
 }

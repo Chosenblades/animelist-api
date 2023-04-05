@@ -1,14 +1,14 @@
 
 
 async function getOneAnime(req, reply) {
-    const { animeId } = req.params;
-    const anime = await this.Anime.findByPk(animeId);
+    const { animeTitle } = req.params;
+    const anime = await this.Anime.findOne({ title: animeTitle });
 
-    if(anime === null) {
-        reply.notFound();
-    } else {
-        return anime;
+    if(!anime) {
+        return reply.notFound();
     }
+
+    return anime;
 }
 
 function getMultipleAnime(req, reply) {
@@ -27,10 +27,15 @@ function deleteAnime(req, reply) {
     return "NYI"
 }
 
+async function searchAnime(req, reply) {
+    return "NYI"
+}
+
 module.exports = {
     getOneAnime,
     getMultipleAnime,
     createAnime,
     updateAnime,
-    deleteAnime
+    deleteAnime,
+    searchAnime
 }

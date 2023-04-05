@@ -1,66 +1,43 @@
-const { DataTypes } = require('sequelize');
 const fp = require('fastify-plugin')
+const mongoose = require('mongoose');
 
 function plugin (fastify, options, done) {
-    const Anime = fastify.sequelize.define('Anime', {
+
+    const animeSchema = new mongoose.Schema({
         sources: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: false
+            type: [String]
         },
         title: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: String
         },
         type: {
-            type: DataTypes.ENUM,
-            values: ['TV', 'MOVIE', 'OVA', 'ONA', 'SPECIAL', 'UNKNOWN'],
-            allowNull: false
+            type: String,
+            enum: ['TV', 'MOVIE', 'OVA', 'ONA', 'SPECIAL', 'UNKNOWN']
         },
-        episodes: {
-            type: DataTypes.INTEGER,
-            allowNull: true
-        },
+        episodes: Number,
         status: {
-            type: DataTypes.ENUM,
-            values: ['FINISHED', 'ONGOING', 'UPCOMING', 'UNKNOWN'],
-            allowNull: false
+            type: String,
+            enum: ['FINISHED', 'ONGOING', 'UPCOMING', 'UNKNOWN']
         },
         season: {
-            type: DataTypes.ENUM,
-            values: ['SPRING', 'SUMMER', 'FALL', 'WINTER', 'UNDEFINED'],
-            allowNull: false
+            type: String,
+            enum: ['SPRING', 'SUMMER', 'FALL', 'WINTER', 'UNDEFINED']
         },
-        year: {
-            type: DataTypes.INTEGER,
-            allowNull: true
-        },
-        picture: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        thumbnail: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        synonyms: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: true
-        },
-        relations: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: true
-        },
-        tags: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: false
-        },
+        year: Number,
+        picture: String,
+        thumbnail: String,
+        synonyms: [String],
+        relations: [String],
+        tags: [String]
     }, {
-        freezeTableName: true
-    });
+        collection: 'anime'
+    })
+
+    const Anime = mongoose.model('Anime', animeSchema);
 
     fastify.decorate("Anime", Anime);
 
-    done()
+    done();
 }
 
 module.exports = fp(plugin)
