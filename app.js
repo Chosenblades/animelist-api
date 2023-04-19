@@ -4,6 +4,7 @@ const path = require('path')
 const AutoLoad = require('@fastify/autoload')
 const dotenv = require('dotenv');
 const cors = require('@fastify/cors');
+const associations = require('utils/associations.js');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -41,5 +42,6 @@ module.exports = async function (fastify, opts) {
     options: Object.assign({}, opts)
   })
 
-  //Model associations here
+  //Model associations
+  fastify.register(associations);
 }
