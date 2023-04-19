@@ -1,26 +1,38 @@
 'use strict'
 
-/*const AnimeDatabase = require('../../../config/anime-offline-database.json');
+const animejson = require('../../../config/data/anime.json');
+const characters = require('../../../config/data/anime.json');
+const demographics = require('../../../config/data/anime.json');
+const genres = require('../../../config/data/anime.json');
+const licensors = require('../../../config/data/anime.json');
+const producers = require('../../../config/data/anime.json');
+const staff = require('../../../config/data/anime.json');
+const studios = require('../../../config/data/anime.json');
+const themes = require('../../../config/data/anime.json');
+/*const animejson = require('../../../config/data/anime.json');
+const animejson = require('../../../config/data/anime.json');
+const animejson = require('../../../config/data/anime.json');
+const animejson = require('../../../config/data/anime.json');
+const animejson = require('../../../config/data/anime.json');
+const animejson = require('../../../config/data/anime.json');
+const animejson = require('../../../config/data/anime.json');
+const animejson = require('../../../config/data/anime.json');*/
 
-const batch1 = AnimeDatabase.splice(0, 4000);
-const batch2 = AnimeDatabase.splice(0, 2500);
-const batch3 = AnimeDatabase.splice(0, 4000);
-const batch4 = AnimeDatabase.splice(0, 4000);
-const batch5 = AnimeDatabase.splice(0, 4000);
-const batch6 = AnimeDatabase.splice(0, 4000);
-const batch7 = AnimeDatabase.splice(0, 4000);
-const batch8 = AnimeDatabase.splice(0, 4000);*/
 
 module.exports = async function (fastify, opts) {
-    fastify.post('/', async function (request, reply) {
-        return 'Not today';
-        /*try {
-            const anime = await fastify.Anime.bulkCreate(AnimeDatabase, { validate: true });
-            console.log(anime.length);
-            return 'All anime was inserted into the database.'
-        } catch (e) {
-            console.log(e);
-            return 'Failed';
-        }*/
-    })
+
+    const { Anime } = fastify.sequelize.models;
+
+    fastify.post('/anime', async function (request, reply) {
+        while(animejson.length > 1000) {
+            const slice = animejson.splice(0, 1000);
+            const batch = await Anime.bulkCreate(slice);
+        }
+
+        if(animejson.length > 0) {
+            const batch = await Anime.bulkCreate(animejson);
+        }
+
+        return "All anime inserted.";
+    });
 }

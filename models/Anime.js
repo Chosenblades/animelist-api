@@ -1,66 +1,56 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Model } = require('sequelize');
 const fp = require('fastify-plugin')
 
 function plugin (fastify, options, done) {
-    const Anime = fastify.sequelize.define('Anime', {
-        sources: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: false
+    class Anime extends Model {
+
+    }
+    Anime.init({
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
         },
-        title: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
+        synopsis: DataTypes.STRING,
+        image_url: DataTypes.STRING,
+        title_synonyms: DataTypes.STRING,
+        title_romaji: DataTypes.STRING,
+        title_japanese: DataTypes.STRING,
+        title_english: DataTypes.STRING,
+        title_german: DataTypes.STRING,
+        title_spanish: DataTypes.STRING,
+        title_french: DataTypes.STRING,
         type: {
             type: DataTypes.ENUM,
-            values: ['TV', 'MOVIE', 'OVA', 'ONA', 'SPECIAL', 'UNKNOWN'],
-            allowNull: false
+            values: ["TV", "Movie", "OVA", "Special", "ONA"]
         },
-        episodes: {
-            type: DataTypes.INTEGER,
-            allowNull: true
-        },
+        episodes: DataTypes.INTEGER,
         status: {
             type: DataTypes.ENUM,
-            values: ['FINISHED', 'ONGOING', 'UPCOMING', 'UNKNOWN'],
-            allowNull: false
+            values: ["Finished Airing", "Currently Airing", "Not yet aired"]
         },
+        aired: DataTypes.STRING,
         season: {
             type: DataTypes.ENUM,
-            values: ['SPRING', 'SUMMER', 'FALL', 'WINTER', 'UNDEFINED'],
-            allowNull: false
+            values: ["Spring", "Summer", "Fall", "Winter"]
         },
-        year: {
-            type: DataTypes.INTEGER,
-            allowNull: true
+        year: DataTypes.INTEGER,
+        broadcast: DataTypes.STRING,
+        source: {
+            type: DataTypes.ENUM,
+            values: ["Original", "Manga", "Light novel", "Game", "Visual novel", "4-koma manga", "Novel", "Other", "Unknown", "Picture book", "Web manga", "Music", "Radio", "Book", "Card game", "Mixed media", "Web novel"]
         },
-        picture: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        thumbnail: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        synonyms: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: true
-        },
-        relations: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: true
-        },
-        tags: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: false
-        },
+        rating: {
+            type: DataTypes.ENUM,
+            values: ["R - 17+ (violence & profanity)", "PG-13 - Teens 13 or older", "PG - Children", "R+ - Mild Nudity", "G - All Ages", "Rx - Hentai", "None"]
+        }
     }, {
         freezeTableName: true
     });
 
     fastify.decorate("Anime", Anime);
 
-    done()
+    done();
 }
 
-module.exports = fp(plugin)
+module.exports = fp(plugin);

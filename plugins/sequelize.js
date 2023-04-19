@@ -1,14 +1,10 @@
-const fp = require('fastify-plugin')
-const Sequelize = require('sequelize')
+'use strict'
 
+const fp = require('fastify-plugin');
+const { Sequelize } = require('sequelize');
 
-function plugin (fastify, options) {
-    const instance = options.instance || 'sequelize'
-    const autoConnect = options.autoConnect || true
+async function plugin (fastify, options, done) {
     const PG_URI = process.env.PG_URI || null;
-
-    delete options.instance
-    delete options.autoConnect
 
     const sequelize = new Sequelize(PG_URI, {
         ssl: true,
@@ -20,28 +16,22 @@ function plugin (fastify, options) {
         },
         // pool configuration used to pool database connections
         pool: {
-            max: 50,
-            idle: 0,
-            acquire: 0,
+            max: 50
         },
-    })
+    });
 
-    if (autoConnect) {
-        return sequelize.authenticate().then(decorate)
-    }
+    /** Test db connection **/
+    await sequelize.authenticate();
 
-    decorate()
+    /** Connection successful, create fastify decorator **/
+    fastify.decorate('sequelize', sequelize);
+    fastify.addHook('onClose', (fastifyInstance, done) => {
+        sequelize.close()
+            .then(done)
+            .catch(done)
+    });
 
-    return Promise.resolve()
-
-    function decorate () {
-        fastify.decorate(instance, sequelize)
-        fastify.addHook('onClose', (fastifyInstance, done) => {
-            sequelize.close()
-                .then(done)
-                .catch(done)
-        })
-    }
+    done();
 }
 
-module.exports = fp(plugin)
+module.exports = fp(plugin);

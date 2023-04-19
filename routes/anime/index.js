@@ -6,38 +6,39 @@ const AnimeSchema = {
     $id: 'animeSchema',
     type: 'object',
     properties: {
-        sources: {
-            type: 'array',
-            items: { type: 'string' }
-        },
-        title: { type: 'string' },
+        id: { type: 'integer' },
+        synopsis: { type: 'string' },
+        image_url: { type: 'string' },
+        title_synonyms: { type: 'string' },
+        title_romaji: { type: 'string' },
+        title_japanese: { type: 'string' },
+        title_english: { type: 'string' },
+        title_german: { type: 'string' },
+        title_spanish: { type: 'string' },
+        title_french: { type: 'string' },
         type: {
             type: 'string',
-            enum: ['TV', 'MOVIE', 'OVA', 'ONA', 'SPECIAL', 'UNKNOWN']
+            enum: ["TV", "Movie", "OVA", "Special", "ONA"]
         },
         episodes: { type: 'integer' },
         status: {
             type: 'string',
-            enum: ['FINISHED', 'ONGOING', 'UPCOMING', 'UNKNOWN']
+            enum: ["Finished Airing", "Currently Airing", "Not yet aired"]
         },
+        aired: { type: 'string' },
         season: {
             type: 'string',
-            enum: ['SPRING', 'SUMMER', 'FALL', 'WINTER', 'UNDEFINED']
+            enum: ["Spring", "Summer", "Fall", "Winter"]
         },
         year: { type: 'integer' },
-        picture: { type: 'string' },
-        thumbnail: { type: 'string' },
-        synonyms: {
-            type: 'array',
-            items: { type: 'string' }
+        broadcast: { type: 'string' },
+        source: {
+            type: 'string',
+            enum: ["Original", "Manga", "Light novel", "Game", "Visual novel", "4-koma manga", "Novel", "Other", "Unknown", "Picture book", "Web manga", "Music", "Radio", "Book", "Card game", "Mixed media", "Web novel"]
         },
-        relations: {
-            type: 'array',
-            items: { type: 'string' }
-        },
-        tags: {
-            type: 'array',
-            items: { type: 'string' }
+        rating: {
+            type: 'string',
+            enum: ["R - 17+ (violence & profanity)", "PG-13 - Teens 13 or older", "PG - Children", "R+ - Mild Nudity", "G - All Ages", "Rx - Hentai", "None"]
         }
     }
 }

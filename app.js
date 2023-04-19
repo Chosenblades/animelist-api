@@ -3,12 +3,20 @@
 const path = require('path')
 const AutoLoad = require('@fastify/autoload')
 const dotenv = require('dotenv');
+const cors = require('@fastify/cors');
 
 dotenv.config({ path: './config/config.env' });
 
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
+  fastify.register(require('@fastify/cookie'), {
+    hook: 'onRequest'
+  });
 
+  fastify.register(cors, {
+    origin: ['http://localhost:5173', 'localhost:5173', 'http://127.0.0.1:5173', '127.0.0.1:5173'],
+    credentials: true
+  })
 
   // Do not touch the following lines
 
@@ -32,4 +40,6 @@ module.exports = async function (fastify, opts) {
     dir: path.join(__dirname, 'routes'),
     options: Object.assign({}, opts)
   })
+
+  //Model associations here
 }
