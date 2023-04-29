@@ -59,3 +59,4 @@ profile*
 
 # project config
 config
+/routes/db/
