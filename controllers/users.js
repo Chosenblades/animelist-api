@@ -1,4 +1,4 @@
-const { tokenCookieConfig, tokenCookieConfigLocalhost } = require('../config/cookiesConfig.js');
+const { tokenCookieConfig, tokenCookieConfigLocalhost } = require('../utils/cookiesConfig.js');
 
 async function getOneUser(req, reply) {
     //disabled for security
