@@ -22,7 +22,7 @@ app.addHook('onClose', (instance, done) => {
     done();
 });
 
-app.listen({ port: process.env.PORT || 5000 }, (err) => {
+app.listen({ port: process.env.PORT || 3000 }, (err) => {
     if(err) {
         app.log.error(err);
         process.exit(1);
