@@ -2,17 +2,18 @@ const { DataTypes, Model } = require('sequelize');
 const fp = require('fastify-plugin')
 
 function plugin (fastify, options, done) {
-    class Demographic extends Model {
+    class Character extends Model {
+
     }
-    Demographic.init({
-        name: {
-            type: DataTypes.STRING
-        }
+    Character.init({
+        name: DataTypes.STRING,
+        mal_url: DataTypes.STRING,
+        image_url: DataTypes.STRING
     }, {
         sequelize: fastify.sequelize
     });
 
-    fastify.decorate("Demographic", Demographic);
+    fastify.decorate("Character", Character);
 
     done();
 }

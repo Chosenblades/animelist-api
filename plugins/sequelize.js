@@ -4,15 +4,14 @@ const fp = require('fastify-plugin');
 const { Sequelize } = require('sequelize');
 
 async function plugin (fastify, options, done) {
-    const PG_URI = process.env.PG_URI || null;
+    const PS_URI = process.env.PS_URI || null;
 
-    const sequelize = new Sequelize(PG_URI, {
+    const sequelize = new Sequelize(PS_URI, {
         ssl: true,
         dialectOptions: {
             ssl: {
-                require: true
-            },
-            native: true
+                rejectUnauthorized: true
+            }
         },
         // pool configuration used to pool database connections
         pool: {

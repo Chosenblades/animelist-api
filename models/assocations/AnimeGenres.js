@@ -2,15 +2,17 @@ const { DataTypes, Model } = require('sequelize');
 const fp = require('fastify-plugin')
 
 function plugin (fastify, options, done) {
-    class AnimeRelation extends Model {
+    class AnimeGenres extends Model {
 
     }
-    AnimeRelation.init({
-        relation: DataTypes.STRING
+    AnimeGenres.init({
+
     }, {
         sequelize: fastify.sequelize,
         freezeTableName: true
     });
+
+    fastify.decorate("AnimeGenres", AnimeGenres);
 
     done();
 }

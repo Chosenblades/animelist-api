@@ -4,7 +4,7 @@ const path = require('path')
 const AutoLoad = require('@fastify/autoload')
 const dotenv = require('dotenv');
 const cors = require('@fastify/cors');
-const associations = require('utils/associations.js');
+const associations = require('./utils/associations.js');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -17,7 +17,10 @@ module.exports = async function (fastify, opts) {
   fastify.register(cors, {
     origin: ['http://localhost:5173', 'localhost:5173', 'http://127.0.0.1:5173', '127.0.0.1:5173'],
     credentials: true
-  })
+  });
+
+  fastify.register(require('@fastify/compress'));
+  fastify.register(require('@fastify/helmet'), { global: true });
 
   // Do not touch the following lines
 

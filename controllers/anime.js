@@ -1,8 +1,23 @@
 // noinspection JSUnresolvedVariable,JSUnresolvedFunction
 
 async function getOneAnime(req, reply) {
+    const { Anime, Character, Demographic, Genre, Licensor, Producer, Staff, Studio, Theme } = this.sequelize.models;
+
     const { animeId } = req.params;
-    const anime = await this.Anime.findByPk(animeId);
+    const anime = await Anime.findByPk(animeId, {
+        include: Studio
+    });
+    /*const anime = await Anime.findOne(
+        {
+            where: { id: animeId },
+            include: [
+                {
+                    model: Anime,
+                    as: 'ChildAnime'
+                }
+            ]
+        }
+    );*/
 
     if(anime === null) {
         reply.notFound();

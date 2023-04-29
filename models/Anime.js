@@ -11,7 +11,7 @@ function plugin (fastify, options, done) {
             autoIncrement: true,
             primaryKey: true
         },
-        synopsis: DataTypes.STRING,
+        synopsis: DataTypes.STRING(5000),
         image_url: DataTypes.STRING,
         title_synonyms: DataTypes.STRING,
         title_romaji: DataTypes.STRING,
@@ -45,6 +45,7 @@ function plugin (fastify, options, done) {
             values: ["R - 17+ (violence & profanity)", "PG-13 - Teens 13 or older", "PG - Children", "R+ - Mild Nudity", "G - All Ages", "Rx - Hentai", "None"]
         }
     }, {
+        sequelize: fastify.sequelize,
         freezeTableName: true
     });
 
