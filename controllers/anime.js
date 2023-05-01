@@ -5,19 +5,16 @@ async function getOneAnime(req, reply) {
 
     const { animeId } = req.params;
     const anime = await Anime.findByPk(animeId, {
-        include: Studio
-    });
-    /*const anime = await Anime.findOne(
-        {
-            where: { id: animeId },
-            include: [
-                {
-                    model: Anime,
-                    as: 'ChildAnime'
-                }
-            ]
-        }
-    );*/
+        include: [
+            { model: Genre, attributes: ['name'], through: { attributes: [] } },
+            { model: Licensor, attributes: ['name'], through: { attributes: [] } },
+            { model: Producer, attributes: ['name'], through: { attributes: [] } },
+            { model: Studio, attributes: ['name'], through: { attributes: [] } },
+            { model: Theme, attributes: ['name'], through: { attributes: [] } },
+            { model: Demographic, attributes: ['name'] },
+            { model: Anime, as: 'ChildAnime', attributes: ['id', 'title_romaji', 'image_url'], through: { attributes: ['relation'] } }
+        ]
+    })
 
     if(anime === null) {
         reply.notFound();
