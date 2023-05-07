@@ -4,6 +4,7 @@ const S = require('fluent-json-schema');
 function plugin (fastify, options, done) {
     const studioSchema = S.object()
         .id('studioSchema')
+        .prop('id', S.number())
         .prop('name', S.string())
 
     fastify.addSchema(studioSchema);

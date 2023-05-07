@@ -46,7 +46,14 @@ function plugin (fastify, options, done) {
         }
     }, {
         sequelize: fastify.sequelize,
-        freezeTableName: true
+        freezeTableName: true,
+        indexes: [
+            {
+                type: 'FULLTEXT',
+                fields: ['title_romaji', 'title_english', 'title_synonyms'],
+                name: 'search_by_title'
+            }
+        ]
     });
 
     fastify.decorate("Anime", Anime);

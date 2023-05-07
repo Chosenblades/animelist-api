@@ -1,7 +1,7 @@
 'use strict'
 
 const S = require('fluent-json-schema');
-const { getOneAnime, getMultipleAnime, createAnime, updateAnime, deleteAnime } = require('../../controllers/anime.js');
+const { getOneAnime, getMultipleAnime, createAnime, updateAnime, deleteAnime, searchAnime, getAnimeRelations } = require('../../controllers/anime.js');
 
 const getOneAnimeOptions = {
     schema: {
@@ -58,6 +58,20 @@ const deleteAnimeOptions = {
     }
 }
 
+const searchAnimeTitleOptions = {
+    schema: {
+        response: {
+            '2xx': { $ref: 'animeSchema' }
+        },
+        querystring: {
+            type: 'object',
+            properties: {
+                title: { type: 'string' }
+            },
+        },
+    }
+}
+
 /**
  *
  * @param fastify
@@ -76,4 +90,7 @@ module.exports = async function (fastify, opts) {
     fastify.post('/:animeId', { createAnimeOptions }, createAnime);
     fastify.put('/:animeId', { updateAnimeOptions }, updateAnime);
     fastify.delete('/:animeId', { deleteAnimeOptions }, deleteAnime);
+
+    fastify.get('/search', searchAnime);
+    fastify.get('/relations/:animeId', getAnimeRelations);
 }

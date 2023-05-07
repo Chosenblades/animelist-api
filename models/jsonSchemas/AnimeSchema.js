@@ -25,6 +25,7 @@ function plugin (fastify, options, done) {
         .prop('rating', S.anyOf([S.enum(["R - 17+ (violence & profanity)", "PG-13 - Teens 13 or older", "PG - Children", "R+ - Mild Nudity", "G - All Ages", "Rx - Hentai", "None"]), S.null()]))
         .prop('Genres', S.anyOf([S.array().items(S.ref('genreSchema')), S.null()]))
         .prop('Producers', S.anyOf([S.array().items(S.ref('producerSchema')), S.null()]))
+        .prop('Licensors', S.anyOf([S.array().items(S.ref('licensorSchema')), S.null()]))
         .prop('Studios', S.anyOf([S.array().items(S.ref('studioSchema')), S.null()]))
         .prop('Themes', S.anyOf([S.array().items(S.ref('themeSchema')), S.null()]))
         .prop('Demographic', S.anyOf([S.ref('genreSchema'), S.null()]))

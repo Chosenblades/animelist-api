@@ -4,7 +4,7 @@ const S = require('fluent-json-schema');
 function plugin (fastify, options, done) {
     const animeRelationSchema = S.object()
         .id('animeRelationSchema')
-        .prop('name', S.string())
+        .prop('relation', S.string())
 
     fastify.addSchema(animeRelationSchema);
     done();

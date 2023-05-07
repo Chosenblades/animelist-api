@@ -1,6 +1,6 @@
 'use strict'
 
-const { getAnimeStudio } = require('../../controllers/studio.js');
+const { getAnimeLicensor } = require('../../controllers/licensor.js');
 
 /**
  *
@@ -9,12 +9,12 @@ const { getAnimeStudio } = require('../../controllers/studio.js');
  * @param fastify.delete
  * @param fastify.put
  * @param fastify.post
- * @param fastify.Studio
+ * @param fastify.Licensor
  * @param opts
  * @returns {Promise<void>}
  */
 module.exports = async function (fastify, opts) {
 
-    //fastify.get('/:studioId', getOneStudio);
-    fastify.get('/anime/:animeId', getAnimeStudio)
+    //fastify.get('/:studioId', getOneLicensor);
+    fastify.get('/anime/:animeId', getAnimeLicensor)
 }

@@ -15,7 +15,8 @@ async function plugin (fastify, options, done) {
         },
         // pool configuration used to pool database connections
         pool: {
-            max: 50
+            max: 5,
+            min: 0
         },
     });
 
