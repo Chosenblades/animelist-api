@@ -50,6 +50,21 @@ function plugin (fastify, options, done) {
         indexes: [
             {
                 type: 'FULLTEXT',
+                fields: ['title_romaji'],
+                name: 'search_by_romaji'
+            },
+            {
+                type: 'FULLTEXT',
+                fields: ['title_english'],
+                name: 'search_by_english'
+            },
+            {
+                type: 'FULLTEXT',
+                fields: ['title_synonyms'],
+                name: 'search_by_synonyms'
+            },
+            {
+                type: 'FULLTEXT',
                 fields: ['title_romaji', 'title_english', 'title_synonyms'],
                 name: 'search_by_title'
             }

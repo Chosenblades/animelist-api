@@ -28,7 +28,7 @@ function plugin (fastify, options, done) {
         .prop('Licensors', S.anyOf([S.array().items(S.ref('licensorSchema')), S.null()]))
         .prop('Studios', S.anyOf([S.array().items(S.ref('studioSchema')), S.null()]))
         .prop('Themes', S.anyOf([S.array().items(S.ref('themeSchema')), S.null()]))
-        .prop('Demographic', S.anyOf([S.ref('genreSchema'), S.null()]))
+        .prop('Demographic', S.anyOf([S.ref('demographicSchema'), S.null()]))
         .prop('ChildAnime', S.anyOf([S.array().items(S.ref('childAnimeSchema')), S.null()]))
 
     fastify.addSchema(animeSchema);

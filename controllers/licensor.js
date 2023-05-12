@@ -12,4 +12,12 @@ async function getAnimeLicensor(req, reply) {
     return licensor;
 }
 
-module.exports = { getAnimeLicensor };
+async function getAllLicensors(req, reply) {
+    const { Licensor } = this.sequelize.models;
+
+    const licensors = await Licensor.findAll({ attributes: ['name']});
+    const licensorArray = licensors.map((lic) => { return lic.name });
+    return { licensors: licensorArray };
+}
+
+module.exports = { getAnimeLicensor, getAllLicensors };

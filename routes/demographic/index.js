@@ -1,6 +1,37 @@
 'use strict'
 
-const { getAnimeDemographic } = require('../../controllers/demographic.js');
+const { getAnimeDemographic, getAllDemographics } = require('../../controllers/demographic.js');
+const S = require("fluent-json-schema");
+
+const animeDemographicResponse = S.object()
+    .prop('Demographic', S.anyOf([S.ref('demographicSchema'), S.null()]))
+
+const getAnimeDemographicOptions = {
+    schema: {
+        response: {
+            '2xx': animeDemographicResponse
+        },
+        params: {
+            type: 'object',
+            properties: {
+                animeId: { type: 'integer' }
+            },
+        },
+    }
+}
+
+const allDemographicsResponse = S.object()
+    .prop('demographics', S.array().items(S.string()));
+
+const getAllDemographicsOptions = {
+    schema: {
+        response: {
+            '2xx': allDemographicsResponse
+        }
+    }
+}
+
+
 
 /**
  *
@@ -15,6 +46,6 @@ const { getAnimeDemographic } = require('../../controllers/demographic.js');
  */
 module.exports = async function (fastify, opts) {
 
-    //fastify.get('/:studioId', getOneDemographic);
-    fastify.get('/anime/:animeId', getAnimeDemographic)
+    fastify.get('/anime/:animeId', getAnimeDemographicOptions, getAnimeDemographic);
+    fastify.get('/', getAllDemographicsOptions, getAllDemographics);
 }

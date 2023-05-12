@@ -1,6 +1,35 @@
 'use strict'
 
-const { getAnimeStudio } = require('../../controllers/studio.js');
+const { getAnimeStudio, getAllStudios } = require('../../controllers/studio.js');
+const S = require("fluent-json-schema");
+
+const responseSchema = S.object()
+    .prop('Studios', S.anyOf([S.array().items(S.ref('studioSchema')), S.null()]))
+
+const getAnimeStudiosOptions = {
+    schema: {
+        response: {
+            '2xx': responseSchema
+        },
+        params: {
+            type: 'object',
+            properties: {
+                animeId: { type: 'integer' }
+            },
+        },
+    }
+}
+
+const allStudiosResponse = S.object()
+    .prop('studios', S.array().items(S.string()));
+
+const getAllStudiosOptions = {
+    schema: {
+        response: {
+            '2xx': allStudiosResponse
+        }
+    }
+}
 
 /**
  *
@@ -16,5 +45,6 @@ const { getAnimeStudio } = require('../../controllers/studio.js');
 module.exports = async function (fastify, opts) {
 
     //fastify.get('/:studioId', getOneStudio);
-    fastify.get('/anime/:animeId', getAnimeStudio)
+    fastify.get('/anime/:animeId', getAnimeStudiosOptions, getAnimeStudio);
+    fastify.get('/', getAllStudiosOptions, getAllStudios)
 }

@@ -12,4 +12,12 @@ async function getAnimeGenre(req, reply) {
     return genre;
 }
 
-module.exports = { getAnimeGenre };
+async function getAllGenres(req, reply) {
+    const { Genre } = this.sequelize.models;
+
+    const genres = await Genre.findAll({ attributes: ['name']});
+    const genreArray = genres.map((demo) => { return demo.name });
+    return { genres: genreArray };
+}
+
+module.exports = { getAnimeGenre, getAllGenres };

@@ -12,4 +12,12 @@ async function getAnimeProducer(req, reply) {
     return producer;
 }
 
-module.exports = { getAnimeProducer };
+async function getAllProducers(req, reply) {
+    const { Producer } = this.sequelize.models;
+
+    const producers = await Producer.findAll({ attributes: ['name']});
+    const producersArray = producers.map((prod) => { return prod.name });
+    return { producers: producersArray };
+}
+
+module.exports = { getAnimeProducer, getAllProducers };

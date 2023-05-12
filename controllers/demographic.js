@@ -12,4 +12,12 @@ async function getAnimeDemographic(req, reply) {
     return demo;
 }
 
-module.exports = { getAnimeDemographic };
+async function getAllDemographics(req, reply) {
+    const { Demographic } = this.sequelize.models;
+
+    const demographics = await Demographic.findAll({ attributes: ['name']});
+    const demoArray = demographics.map((demo) => { return demo.name });
+    return { demographics: demoArray };
+}
+
+module.exports = { getAnimeDemographic, getAllDemographics };

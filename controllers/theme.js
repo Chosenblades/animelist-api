@@ -12,4 +12,12 @@ async function getAnimeTheme(req, reply) {
     return theme;
 }
 
-module.exports = { getAnimeTheme };
+async function getAllThemes(req, reply) {
+    const { Theme } = this.sequelize.models;
+
+    const themes = await Theme.findAll({ attributes: ['name']});
+    const themesArray = themes.map((the) => { return the.name });
+    return { themes: themesArray };
+}
+
+module.exports = { getAnimeTheme, getAllThemes };
