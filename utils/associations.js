@@ -4,8 +4,8 @@ function plugin(fastify, options, done) {
     const { Anime, AnimeRelations, Demographic, Genre, AnimeGenres, Licensor, AnimeLicensors, Producer, AnimeProducers, Studio, AnimeStudios, Theme, AnimeThemes, Character, Person, AnimeCharacters, AnimeStaff, CharacterVoiceActors } = fastify.sequelize.models;
 
     //Many Anime to many Anime
-    Anime.belongsToMany(Anime, { as: 'ParentAnime', through: AnimeRelations, foreignKey: 'parentAnimeId', constraints: false })
-    Anime.belongsToMany(Anime, { as: 'ChildAnime', through: AnimeRelations, foreignKey: 'childAnimeId', constraints: false })
+    Anime.belongsToMany(Anime, { as: 'ChildAnime', through: AnimeRelations, foreignKey: 'parentAnimeId', constraints: false })
+    Anime.belongsToMany(Anime, { as: 'ParentAnime', through: AnimeRelations, foreignKey: 'childAnimeId', constraints: false })
 
     //Many Anime to one Demographic
     Demographic.hasMany(Anime, { foreignKey: 'demographicId', constraints: false });

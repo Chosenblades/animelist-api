@@ -83,7 +83,7 @@ async function getAnimeRelations(req, reply) {
     const anime = await Anime.findByPk(animeId, {
         attributes: [],
         include: [
-            { model: Anime, as: 'ChildAnime', attributes: ['id', 'title_romaji', 'image_url'], through: { attributes: ['relation'] } }
+            { model: Anime, as: 'ChildAnime', attributes: ['id', 'title_romaji', 'image_url'], through: { attributes: ['relation', 'childAnimeId'] } }
         ]
     });
 
