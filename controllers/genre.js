@@ -17,7 +17,7 @@ async function getAllGenres(req, reply) {
 
     const genres = await Genre.findAll({ attributes: ['name']});
     const genreArray = genres.map((demo) => { return demo.name });
-    return { genres: genreArray };
+    return { data: genreArray };
 }
 
 module.exports = { getAnimeGenre, getAllGenres };

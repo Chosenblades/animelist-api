@@ -17,7 +17,7 @@ async function getAllProducers(req, reply) {
 
     const producers = await Producer.findAll({ attributes: ['name']});
     const producersArray = producers.map((prod) => { return prod.name });
-    return { producers: producersArray };
+    return { data: producersArray };
 }
 
 module.exports = { getAnimeProducer, getAllProducers };

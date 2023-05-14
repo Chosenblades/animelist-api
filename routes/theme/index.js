@@ -21,7 +21,7 @@ const getAnimeThemesOptions = {
 }
 
 const allThemesResponse = S.object()
-    .prop('themes', S.array().items(S.string()));
+    .prop('data', S.array().items(S.string()));
 
 const getAllThemesOptions = {
     schema: {

@@ -21,7 +21,7 @@ const getAnimeGenresOptions = {
 }
 
 const allGenresResponse = S.object()
-    .prop('genres', S.array().items(S.string()));
+    .prop('data', S.array().items(S.string()));
 
 const getAllGenresOptions = {
     schema: {

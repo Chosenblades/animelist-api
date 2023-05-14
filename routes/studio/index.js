@@ -21,7 +21,7 @@ const getAnimeStudiosOptions = {
 }
 
 const allStudiosResponse = S.object()
-    .prop('studios', S.array().items(S.string()));
+    .prop('data', S.array().items(S.string()));
 
 const getAllStudiosOptions = {
     schema: {

@@ -21,7 +21,7 @@ const getAnimeProducersOptions = {
 }
 
 const allProducersResponse = S.object()
-    .prop('producers', S.array().items(S.string()));
+    .prop('data', S.array().items(S.string()));
 
 const getAllProducersOptions = {
     schema: {

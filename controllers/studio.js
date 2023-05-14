@@ -17,7 +17,7 @@ async function getAllStudios(req, reply) {
 
     const studios = await Studio.findAll({ attributes: ['name']});
     const studiosArray = studios.map((stud) => { return stud.name });
-    return { studios: studiosArray };
+    return { data: studiosArray };
 }
 
 module.exports = { getAnimeStudio, getAllStudios };

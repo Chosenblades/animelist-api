@@ -17,7 +17,7 @@ async function getAllLicensors(req, reply) {
 
     const licensors = await Licensor.findAll({ attributes: ['name']});
     const licensorArray = licensors.map((lic) => { return lic.name });
-    return { licensors: licensorArray };
+    return { data: licensorArray };
 }
 
 module.exports = { getAnimeLicensor, getAllLicensors };

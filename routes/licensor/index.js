@@ -21,7 +21,7 @@ const getAnimeLicensorsOptions = {
 }
 
 const allLicensorsResponse = S.object()
-    .prop('licensors', S.array().items(S.string()));
+    .prop('data', S.array().items(S.string()));
 
 const getAllLicensorsOptions = {
     schema: {

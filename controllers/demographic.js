@@ -17,7 +17,7 @@ async function getAllDemographics(req, reply) {
 
     const demographics = await Demographic.findAll({ attributes: ['name']});
     const demoArray = demographics.map((demo) => { return demo.name });
-    return { demographics: demoArray };
+    return { data: demoArray };
 }
 
 module.exports = { getAnimeDemographic, getAllDemographics };

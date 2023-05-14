@@ -17,7 +17,7 @@ async function getAllThemes(req, reply) {
 
     const themes = await Theme.findAll({ attributes: ['name']});
     const themesArray = themes.map((the) => { return the.name });
-    return { themes: themesArray };
+    return { data: themesArray };
 }
 
 module.exports = { getAnimeTheme, getAllThemes };

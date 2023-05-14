@@ -21,7 +21,7 @@ const getAnimeDemographicOptions = {
 }
 
 const allDemographicsResponse = S.object()
-    .prop('demographics', S.array().items(S.string()));
+    .prop('data', S.array().items(S.string()));
 
 const getAllDemographicsOptions = {
     schema: {
