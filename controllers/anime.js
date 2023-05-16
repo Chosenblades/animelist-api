@@ -148,10 +148,20 @@ function getMultipleAnime(req, reply) {
     let where = [];
     let replacements = {};
     let include = [];
+    let order = [];
 
     if(title) {
-        attributes.push(this.sequelize.literal('MATCH (title_romaji, title_english, title_synonyms) AGAINST (:name) AS score'));
+        /*attributes.push(this.sequelize.literal('MATCH (title_romaji, title_english, title_synonyms) AGAINST (:name) AS score'));
+        where.push(this.sequelize.literal('MATCH (title_romaji, title_english, title_synonyms) AGAINST (:name)'));*/
+        attributes.push(this.sequelize.literal('MATCH (title_romaji) AGAINST (:name) AS romaji_score'));
+        attributes.push(this.sequelize.literal('MATCH (title_english) AGAINST (:name) AS english_score'));
+        attributes.push(this.sequelize.literal('MATCH (title_synonyms) AGAINST (:name) AS synonyms_score'));
         where.push(this.sequelize.literal('MATCH (title_romaji, title_english, title_synonyms) AGAINST (:name)'));
+        order.push([this.sequelize.literal(`${this.sequelize.escape(title)} LIKE title_romaji`), 'DESC']);
+        order.push([this.sequelize.literal(`${this.sequelize.escape(title)} LIKE title_english`), 'DESC']);
+        order.push([this.sequelize.literal(`${this.sequelize.escape(title + '%')} LIKE title_romaji`), 'DESC']);
+        order.push([this.sequelize.literal(`${this.sequelize.escape(title + '%')} LIKE title_english`), 'DESC']);
+        order.push([this.sequelize.literal('(romaji_score*2)+(english_score*2)+(synonyms_score)'), 'DESC']);
         replacements = { name: title }
     }
 
@@ -207,11 +217,11 @@ function getMultipleAnime(req, reply) {
 
     const anime = Anime.findAll({
         attributes: attributes,
-        limit: 10,
+        limit: 30,
         where: { [Op.and]: where },
         replacements: replacements,
         include: include,
-        //order: [[this.sequelize.literal('score'), 'DESC']]
+        order: order
     });
 
     if(anime === null) {
