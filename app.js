@@ -9,7 +9,6 @@ const associations = require('./utils/associations.js');
 dotenv.config({ path: './config/config.env' });
 
 module.exports = async function (fastify, opts) {
-  // Place here your custom code!
   fastify.register(require('@fastify/cookie'), {
     hook: 'onRequest'
   });
