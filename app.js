@@ -14,7 +14,7 @@ module.exports = async function (fastify, opts) {
   });
 
   fastify.register(cors, {
-    origin: ['*'],
+    origin: '*',
     credentials: true
   });
 
