@@ -49,6 +49,11 @@ function plugin (fastify, options, done) {
         freezeTableName: true,
         indexes: [
             {
+                fields: ['title_romaji', 'title_english', 'title_synonyms'],
+                using: 'gin',
+                name: 'search_by_title'
+            }
+            /*{
                 type: 'FULLTEXT',
                 fields: ['title_romaji'],
                 name: 'search_by_romaji'
@@ -67,7 +72,7 @@ function plugin (fastify, options, done) {
                 type: 'FULLTEXT',
                 fields: ['title_romaji', 'title_english', 'title_synonyms'],
                 name: 'search_by_title'
-            }
+            }*/
         ]
     });
 

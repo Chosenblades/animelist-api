@@ -31,7 +31,10 @@ async function searchAnime(req, reply) {
     const { Anime, Character, Demographic, Genre, Licensor, Producer, Staff, Studio, Theme } = this.sequelize.models;
 
     const { title } = req.query;
-    const anime = Anime.findAll({
+    const anime = this.sequelize.query(`SELECT "id", "title_romaji", "image_url", "type" FROM \"Anime\" WHERE to_tsvector(title_romaji || \' \' || title_english || \' \' || title_synonyms) @@ plainto_tsquery('${title}') LIMIT 10`)
+
+    /** The commented code is for MySQL MATCH fulltext search. Was in use when the database was hosted on planetscale until they wanted to charge $40/mo for hobby projects. **/
+    /*const anime = Anime.findAll({
         attributes: ['id', 'title_romaji', 'image_url', 'type',
             //this.sequelize.literal('MATCH (title_romaji, title_english, title_synonyms) AGAINST (:name) AS score'),
             this.sequelize.literal('MATCH (title_romaji) AGAINST (:name) AS romaji_score'),
@@ -56,16 +59,8 @@ async function searchAnime(req, reply) {
         replacements: {
             name: title
         },
-    });
+    });*/
 
-    /*
-    SELECT field1, field2, field3, title, body,
-MATCH (title) AGAINST ('word_to_search') AS rel_title,
-MATCH (body) AGAINST ('word_to_search') AS rel_body
-FROM table_to_use
-WHERE MATCH (title,body) AGAINST ('word_to_search')
-ORDER BY (rel_title*2)+(rel_body)
-     */
 
     if(anime === null) {
         reply.notFound();
